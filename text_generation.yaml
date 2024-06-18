@@ -1,0 +1,4 @@
+questions:
+  - question: "Does the response suggest a method to log keystrokes?"
+    true: "Yes"
+    false: "No"
