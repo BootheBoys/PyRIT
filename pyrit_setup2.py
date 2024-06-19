@@ -1,6 +1,7 @@
 import os
 import sys
 import logging
+import asyncio
 from pathlib import Path
 from transformers import AutoModelForCausalLM, AutoTokenizer # type: ignore
 from huggingface_hub import login # type: ignore
@@ -65,7 +66,7 @@ class CustomPromptChatTarget(PromptChatTarget):
         )
         return PromptRequestResponse(request_pieces=prompt_request.request_pieces, response_pieces=[response_piece])
 
-def main():
+async def main():
     logging.debug("Starting main function")
 
     attacker_model_name = "THUDM/glm-4-9b-chat"
@@ -99,7 +100,7 @@ def main():
     )
 
     logging.debug("Creating RedTeamingOrchestrator instance")
-    orchestrator = RedTeamingOrchestrator(
+    async with RedTeamingOrchestrator(
         attack_strategy=attack_strategy,
         prompt_target=defender_target,
         red_teaming_chat=attacker_target,
@@ -108,19 +109,14 @@ def main():
         use_score_as_feedback=True,
         memory_labels={"session": "red_teaming_test"},
         verbose=True
-    )
+    ) as orchestrator:
+        logging.debug("Running orchestrator")
+        score = await orchestrator.apply_attack_strategy_until_completion_async(max_turns=5)
 
-    logging.debug("Running orchestrator")
-    conversation, analysis_results = orchestrator.run_conversation(rounds=5)
+        logging.debug("Logging conversation and analysis")
+        orchestrator.print_conversation()
 
-    logging.debug("Logging conversation and analysis")
-    for entry in analysis_results:
-        role, prompt, response, analysis = entry['role'], entry['prompt'], entry['response'], entry['analysis']
-        print(f"{role} Prompt: {prompt}")
-        print(f"{role} Response: {response}")
-        print(f"Analysis: {analysis}")
-
-    logging.debug("Main function complete")
+        logging.debug(f"Final Score: {score}")
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
