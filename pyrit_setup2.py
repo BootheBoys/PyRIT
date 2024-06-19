@@ -20,7 +20,6 @@ if pyrit_path not in sys.path:
     sys.path.append(pyrit_path)
 
 # Import relevant PyRIT components
-from pyrit import PyRIT
 from pyrit.common.path import DATASETS_PATH
 from pyrit.prompt_target.prompt_target import PromptTarget
 from pyrit.prompt_target.prompt_chat_target.prompt_chat_target import PromptChatTarget
