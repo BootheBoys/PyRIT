@@ -7,7 +7,7 @@ from huggingface_hub import login # type: ignore
 from pyrit.memory import DuckDBMemory
 from pyrit.memory import MemoryInterface
 from pyrit.models import PromptRequestResponse, PromptRequestPiece
-from pyrit.prompt_target.prompt_chat_target import PromptChatTarget
+from pyrit.prompt_target.prompt_chat_target.prompt_chat_target import PromptChatTarget
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
