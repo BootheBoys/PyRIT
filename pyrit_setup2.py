@@ -55,6 +55,10 @@ class CustomPromptChatTarget(PromptChatTarget):
         )
         return response_piece
 
+    def _validate_request(self, prompt_request: PromptRequestResponse):
+        # Implement the validation logic if needed, or leave it as a pass if no specific validation is required
+        pass
+
 async def main():
     logger.debug("Starting main function")
     attacker_model_name = "THUDM/glm-4-9b-chat"
