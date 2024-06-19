@@ -2,6 +2,7 @@ import os
 import sys
 import logging
 import asyncio
+from uuid import uuid4
 from pathlib import Path
 from transformers import AutoModelForCausalLM, AutoTokenizer # type: ignore
 from huggingface_hub import login # type: ignore
@@ -58,6 +59,7 @@ class CustomPromptChatTarget(PromptChatTarget):
         # Implement the logic to send the prompt request asynchronously
         # For now, we will simulate a response
         response_piece = PromptRequestPiece(
+            id=uuid4(),  # Generate a unique id
             role="assistant",
             conversation_id=prompt_request.request_pieces[0].conversation_id,
             original_value="This is a simulated response.",
