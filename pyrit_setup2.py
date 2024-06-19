@@ -42,7 +42,10 @@ class HuggingFaceModelWrapper:
 
 class CustomPromptChatTarget(PromptChatTarget):
     async def send_prompt_async(self, prompt_request: PromptRequestResponse) -> PromptRequestPiece:
-        response_text = self._memory.get_response(prompt_request)
+        # Generate response using the model
+        prompt_text = prompt_request.request_pieces[0].original_value
+        response_text = attacker_wrapper.generate(prompt_text)
+        
         response_uuid = str(uuid.uuid4())
         logger.debug(f"Generated UUID for response_piece: {response_uuid}")
         response_piece = PromptRequestPiece(
@@ -66,6 +69,7 @@ async def main():
 
     # Initialize models
     logger.debug("Initializing models")
+    global attacker_wrapper
     attacker_wrapper = HuggingFaceModelWrapper(attacker_model_name)
     defender_wrapper = HuggingFaceModelWrapper(defender_model_name)
 
