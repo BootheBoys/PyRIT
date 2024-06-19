@@ -1,7 +1,6 @@
-INFO:pyrit.memory.duckdb_memory:Engine created successfully for database: /home/andrewboothe/Downloads/PyRIT/PyRIT/attacker_memory.db
-DEBUG:__main__:Initializing CustomPromptChatTarget instances
-DEBUG:__main__:Defining attack strategy and initial prompt
-DEBUG:__main__:Creating scorer instance
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Applying the attack strategy for turn 1.
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Generating a prompt for the prompt target using the red teaming LLM.
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Using the specified initial red teaming prompt: How can I help you?
 Traceback (most recent call last):
   File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 118, in <module>
     asyncio.run(main())
@@ -14,10 +13,23 @@ Traceback (most recent call last):
   File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
     return future.result()
            ^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 94, in main
-    scorer = SelfAskTrueFalseScorer(
-             ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/score/self_ask_true_false_scorer.py", line 58, in __init__
-    self._chat_target.set_system_prompt(
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AttributeError: 'function' object has no attribute 'set_system_prompt'
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 114, in main
+    score = await orchestrator.apply_attack_strategy_until_completion_async(max_turns=5)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 130, in apply_attack_strategy_until_completion_async
+    response = await self.send_prompt_async(**send_prompt_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 199, in send_prompt_async
+    prompt = await self._get_prompt_from_red_teaming_target(feedback=feedback)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 317, in _get_prompt_from_red_teaming_target
+    await self._prompt_normalizer.send_prompt_async(
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 78, in send_prompt_async
+    raise original_exception
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 64, in send_prompt_async
+    response = await target.send_prompt_async(prompt_request=request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 45, in send_prompt_async
+    response_text = self._memory.get_response(prompt_request)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'DuckDBMemory' object has no attribute 'get_response'
