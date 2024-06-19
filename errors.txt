@@ -1,37 +1,4 @@
-DEBUG:root:Running orchestrator
-INFO:pyrit.orchestrator.red_teaming_orchestrator:Applying the attack strategy for turn 1.
-INFO:pyrit.orchestrator.red_teaming_orchestrator:Generating a prompt for the prompt target using the red teaming LLM.
-INFO:pyrit.orchestrator.red_teaming_orchestrator:Using the specified initial red teaming prompt: How can I help you?
-No conversation with the target
-Traceback (most recent call last):
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 123, in <module>
-    asyncio.run(main())
-  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/runners.py", line 190, in run
-    return runner.run(main)
-           ^^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/runners.py", line 118, in run
-    return self._loop.run_until_complete(task)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
-    return future.result()
-           ^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 116, in main
-    score = await orchestrator.apply_attack_strategy_until_completion_async(max_turns=5)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 130, in apply_attack_strategy_until_completion_async
-    response = await self.send_prompt_async(**send_prompt_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 199, in send_prompt_async
-    prompt = await self._get_prompt_from_red_teaming_target(feedback=feedback)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 317, in _get_prompt_from_red_teaming_target
-    await self._prompt_normalizer.send_prompt_async(
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 78, in send_prompt_async
-    raise original_exception
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 64, in send_prompt_async
-    response = await target.send_prompt_async(prompt_request=request)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 67, in send_prompt_async
-    return PromptRequestResponse(request_pieces=prompt_request.request_pieces, response_pieces=[response_piece])
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: PromptRequestResponse.__init__() got an unexpected keyword argument 'response_pieces'
+sqlalchemy.exc.IntegrityError: (duckdb.duckdb.ConstraintException) Constraint Error: Duplicate key "id: eeec1bb1-233e-4b0e-aa93-92f776dd08ee" violates primary key constraint. If this is an unexpected constraint violation please double check with the known index limitations section in our documentation (https://duckdb.org/docs/sql/indexes).
+[SQL: INSERT INTO "PromptMemoryEntries" (id, role, conversation_id, sequence, timestamp, labels, prompt_metadata, converter_identifiers, prompt_target_identifier, orchestrator_identifier, response_error, original_value_data_type, original_value, original_value_sha256, converted_value_data_type, converted_value, converted_value_sha256) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)]
+[parameters: (UUID('eeec1bb1-233e-4b0e-aa93-92f776dd08ee'), 'user', 'bfe8abf9-fb7b-4066-8c96-d6f2279436c8', 2, datetime.datetime(2024, 6, 19, 17, 28, 16, 340528), '{"session": "red_teaming_test"}', None, '[]', '{"__type__": "CustomPromptChatTarget", "__module__": "__main__"}', '{"__type__": "RedTeamingOrchestrator", "__module__": "pyrit.orchestrator.red_teaming_orchestrator", "id": "123466605288272"}', 'none', 'text', 'How can I help you?', 'f7e48a90d5d76cfc49d378535781243d1f222928f2b3636c798b3278130cc41b', 'text', 'How can I help you?', 'f7e48a90d5d76cfc49d378535781243d1f222928f2b3636c798b3278130cc41b')]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
