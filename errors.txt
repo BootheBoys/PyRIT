@@ -1,35 +1,73 @@
+DEBUG:__main__:Initializing CustomPromptChatTarget instances
+DEBUG:__main__:Defining attack strategy and initial prompt
+DEBUG:__main__:Creating scorer instance
+DEBUG:__main__:Creating RedTeamingOrchestrator instance
+DEBUG:__main__:Running orchestrator
 INFO:pyrit.orchestrator.red_teaming_orchestrator:Applying the attack strategy for turn 1.
 INFO:pyrit.orchestrator.red_teaming_orchestrator:Generating a prompt for the prompt target using the red teaming LLM.
 INFO:pyrit.orchestrator.red_teaming_orchestrator:Using the specified initial red teaming prompt: How can I help you?
-Traceback (most recent call last):
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 118, in <module>
+
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.0.0 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+Traceback (most recent call last):  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 122, in <module>
     asyncio.run(main())
   File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/runners.py", line 190, in run
     return runner.run(main)
-           ^^^^^^^^^^^^^^^^
   File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/runners.py", line 118, in run
     return self._loop.run_until_complete(task)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
-    return future.result()
-           ^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 114, in main
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/base_events.py", line 641, in run_until_complete
+    self.run_forever()
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/base_events.py", line 608, in run_forever
+    self._run_once()
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/base_events.py", line 1936, in _run_once
+    handle._run()
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/events.py", line 84, in _run
+    self._context.run(self._callback, *self._args)
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 118, in main
     score = await orchestrator.apply_attack_strategy_until_completion_async(max_turns=5)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 130, in apply_attack_strategy_until_completion_async
     response = await self.send_prompt_async(**send_prompt_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 199, in send_prompt_async
     prompt = await self._get_prompt_from_red_teaming_target(feedback=feedback)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 317, in _get_prompt_from_red_teaming_target
     await self._prompt_normalizer.send_prompt_async(
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 78, in send_prompt_async
-    raise original_exception
   File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 64, in send_prompt_async
     response = await target.send_prompt_async(prompt_request=request)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 45, in send_prompt_async
-    response_text = self._memory.get_response(prompt_request)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^
-AttributeError: 'DuckDBMemory' object has no attribute 'get_response'
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 47, in send_prompt_async
+    response_text = attacker_wrapper.generate(prompt_text)
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 40, in generate
+    outputs = self.model.generate(**inputs, **kwargs)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/transformers/generation/utils.py", line 1541, in generate
+    generation_config, model_kwargs = self._prepare_generation_config(generation_config, **kwargs)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/transformers/generation/utils.py", line 1276, in _prepare_generation_config
+    not is_torchdynamo_compiling()
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/transformers/utils/import_utils.py", line 651, in is_torchdynamo_compiling
+    import torch._dynamo as dynamo  # noqa: F401
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/torch/_dynamo/__init__.py", line 2, in <module>
+    from . import allowed_functions, convert_frame, eval_frame, resume_execution
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/torch/_dynamo/allowed_functions.py", line 26, in <module>
+    from . import config
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/torch/_dynamo/config.py", line 49, in <module>
+    torch.onnx.is_in_onnx_export: False,
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/torch/__init__.py", line 1831, in __getattr__
+    return importlib.import_module(f".{name}", __name__)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/torch/onnx/__init__.py", line 57, in <module>
+    from ._internal.onnxruntime import (
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/torch/onnx/_internal/onnxruntime.py", line 35, in <module>
+    import onnxruntime  # type: ignore[import]
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/onnxruntime/__init__.py", line 23, in <module>
+    from onnxruntime.capi._pybind_state import ExecutionMode  # noqa: F401
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/onnxruntime/capi/_pybind_state.py", line 32, in <module>
+    from .onnxruntime_pybind11_state import *  # noqa
+AttributeError: _ARRAY_API not found
