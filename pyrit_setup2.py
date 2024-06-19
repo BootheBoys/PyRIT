@@ -5,6 +5,8 @@ from pathlib import Path
 from transformers import AutoModelForCausalLM, AutoTokenizer # type: ignore
 from huggingface_hub import login # type: ignore
 from pyrit.memory import DuckDBMemory
+from pyrit.memory import MemoryInterface
+from pyrit.models import PromptRequestResponse, PromptRequestPiece
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
@@ -21,8 +23,6 @@ if pyrit_path not in sys.path:
 
 # Import relevant PyRIT components
 from pyrit.common.path import DATASETS_PATH
-from pyrit.prompt_target.prompt_target import PromptTarget
-from pyrit.prompt_target.prompt_chat_target.prompt_chat_target import PromptChatTarget
 from pyrit.orchestrator import RedTeamingOrchestrator
 from pyrit.models import AttackStrategy
 from pyrit.score import SelfAskTrueFalseScorer
@@ -36,6 +36,33 @@ class HuggingFaceModelWrapper:
         inputs = self.tokenizer(prompt, return_tensors='pt')
         outputs = self.model.generate(**inputs, **kwargs)
         return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+class CustomPromptChatTarget(PromptChatTarget):
+    def __init__(self, *, memory: MemoryInterface) -> None:
+        super().__init__(memory=memory)
+
+    def _validate_request(self, request: PromptRequestResponse) -> None:
+        # Add validation logic for the request
+        if not request.request_pieces:
+            raise ValueError("Request must contain at least one piece.")
+        for piece in request.request_pieces:
+            if not piece.original_value:
+                raise ValueError("Each request piece must have an original value.")
+
+    async def send_prompt_async(
+        self,
+        prompt_request: PromptRequestResponse,
+    ) -> PromptRequestResponse:
+        # Implement the logic to send the prompt request asynchronously
+        # For now, we will simulate a response
+        response_piece = PromptRequestPiece(
+            role="assistant",
+            conversation_id=prompt_request.request_pieces[0].conversation_id,
+            original_value="This is a simulated response.",
+            converted_value="This is a simulated response.",
+            prompt_target_identifier=self.get_identifier(),
+        )
+        return PromptRequestResponse(request_pieces=prompt_request.request_pieces, response_pieces=[response_piece])
 
 def main():
     logging.debug("Starting main function")
@@ -51,9 +78,9 @@ def main():
     attacker_memory = DuckDBMemory(db_path="attacker_memory.db")
     defender_memory = DuckDBMemory(db_path="defender_memory.db")
 
-    logging.debug("Initializing PromptChatTarget instances")
-    attacker_target = PromptChatTarget(memory=attacker_memory)
-    defender_target = PromptChatTarget(memory=defender_memory)
+    logging.debug("Initializing CustomPromptChatTarget instances")
+    attacker_target = CustomPromptChatTarget(memory=attacker_memory)
+    defender_target = CustomPromptChatTarget(memory=defender_memory)
 
     logging.debug("Defining attack strategy and initial prompt")
     strategy_path = DATASETS_PATH / "orchestrators" / "red_teaming" / "text_generation.yaml"
