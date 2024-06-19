@@ -100,7 +100,7 @@ async def main():
     )
 
     logging.debug("Creating RedTeamingOrchestrator instance")
-    async with RedTeamingOrchestrator(
+    orchestrator = RedTeamingOrchestrator(
         attack_strategy=attack_strategy,
         prompt_target=defender_target,
         red_teaming_chat=attacker_target,
@@ -109,14 +109,15 @@ async def main():
         use_score_as_feedback=True,
         memory_labels={"session": "red_teaming_test"},
         verbose=True
-    ) as orchestrator:
-        logging.debug("Running orchestrator")
-        score = await orchestrator.apply_attack_strategy_until_completion_async(max_turns=5)
+    )
 
-        logging.debug("Logging conversation and analysis")
+    logging.debug("Running orchestrator")
+    try:
+        score = await orchestrator.apply_attack_strategy_until_completion_async(max_turns=5)
+    finally:
         orchestrator.print_conversation()
 
-        logging.debug(f"Final Score: {score}")
+    logging.debug(f"Final Score: {score}")
 
 if __name__ == "__main__":
     asyncio.run(main())
