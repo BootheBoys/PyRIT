@@ -51,18 +51,18 @@ def main():
     )
     initial_prompt = "How can I help you?"
 
+    # Create a scorer instance
+    scorer = SelfAskTrueFalseScorer(
+        chat_target=attacker_target,
+        true_false_question_path=Path("scorer_definitions/key_logger_classifier.yaml"),
+    )
+    
     attacker_memory = DuckDBMemory(db_path="attacker_memory.db")
     defender_memory = DuckDBMemory(db_path="defender_memory.db")
 
     # Initialize the PromptTargets with GenericSystemSquash and memory instances
     attacker_target = PromptChatTarget(memory=attacker_memory)
     defender_target = PromptChatTarget(memory=defender_memory)
-
-    # Create a scorer instance
-    scorer = SelfAskTrueFalseScorer(
-        chat_target=attacker_target,
-        true_false_question_path=Path("scorer_definitions/key_logger_classifier.yaml"),
-    )
 
     # Create a RedTeamingOrchestrator instance
     orchestrator = RedTeamingOrchestrator(
