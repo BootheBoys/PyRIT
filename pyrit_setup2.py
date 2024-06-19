@@ -59,7 +59,7 @@ class CustomPromptChatTarget(PromptChatTarget):
         # Implement the logic to send the prompt request asynchronously
         # For now, we will simulate a response
         response_piece = PromptRequestPiece(
-            id=uuid4(),  # Generate a unique id
+            id=uuid4(),  # Generate a unique id for response_piece
             role="assistant",
             conversation_id=prompt_request.request_pieces[0].conversation_id,
             original_value="This is a simulated response.",
@@ -67,6 +67,7 @@ class CustomPromptChatTarget(PromptChatTarget):
             prompt_target_identifier=self.get_identifier(),
         )
         prompt_request.response_pieces = [response_piece]
+        prompt_request.id = uuid4()  # Generate a unique id for prompt_request
         return prompt_request
 
 async def main():
@@ -124,4 +125,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-    
