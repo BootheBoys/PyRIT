@@ -1,4 +1,124 @@
-File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 130, in apply_attack_strategy_until_completion_async
+DEBUG:urllib3.connectionpool:https://huggingface.co:443 "HEAD /THUDM/glm-4-9b-chat/resolve/main/modeling_chatglm.py HTTP/11" 200 0
+Loading checkpoint shards: 100%|██████████████████████████████| 10/10 [00:13<00:00,  1.31s/it]
+DEBUG:urllib3.connectionpool:https://huggingface.co:443 "HEAD /THUDM/glm-4-9b-chat/resolve/main/generation_config.json HTTP/11" 200 0
+DEBUG:urllib3.connectionpool:https://huggingface.co:443 "HEAD /meta-llama/Meta-Llama-3-8B/resolve/main/tokenizer_config.json HTTP/11" 200 0
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+DEBUG:urllib3.connectionpool:https://huggingface.co:443 "HEAD /meta-llama/Meta-Llama-3-8B/resolve/main/config.json HTTP/11" 200 0
+Loading checkpoint shards: 100%|████████████████████████████████| 4/4 [00:30<00:00,  7.67s/it]
+DEBUG:urllib3.connectionpool:https://huggingface.co:443 "HEAD /meta-llama/Meta-Llama-3-8B/resolve/main/generation_config.json HTTP/11" 200 0
+DEBUG:root:Creating memory instances
+INFO:pyrit.memory.duckdb_memory:Engine created successfully for database: /home/andrewboothe/Downloads/PyRIT/PyRIT/attacker_memory.db
+DEBUG:root:Initializing CustomPromptChatTarget instances
+DEBUG:root:Defining attack strategy and initial prompt
+DEBUG:root:Creating scorer instance
+DEBUG:root:Creating RedTeamingOrchestrator instance
+DEBUG:root:Running orchestrator
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Applying the attack strategy for turn 1.
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Generating a prompt for the prompt target using the red teaming LLM.
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Using the specified initial red teaming prompt: How can I help you?
+ERROR:pyrit.memory.duckdb_memory:Error inserting multiple entries into the table: (duckdb.duckdb.ConstraintException) Constraint Error: Duplicate key "id: c9220102-3eba-4424-a86a-07e9b71ed605" violates primary key constraint. If this is an unexpected constraint violation please double check with the known index limitations section in our documentation (https://duckdb.org/docs/sql/indexes).
+[SQL: INSERT INTO "PromptMemoryEntries" (id, role, conversation_id, sequence, timestamp, labels, prompt_metadata, converter_identifiers, prompt_target_identifier, orchestrator_identifier, response_error, original_value_data_type, original_value, original_value_sha256, converted_value_data_type, converted_value, converted_value_sha256) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)]
+[parameters: (UUID('c9220102-3eba-4424-a86a-07e9b71ed605'), 'user', '7ecd49dc-a15b-40b5-bec5-5d8516b5b393', 2, datetime.datetime(2024, 6, 19, 17, 54, 44, 526998), '{"session": "red_teaming_test"}', None, '[]', '{"__type__": "CustomPromptChatTarget", "__module__": "__main__"}', '{"__type__": "RedTeamingOrchestrator", "__module__": "pyrit.orchestrator.red_teaming_orchestrator", "id": "135754976182160"}', 'none', 'text', 'How can I help you?', 'f7e48a90d5d76cfc49d378535781243d1f222928f2b3636c798b3278130cc41b', 'text', 'How can I help you?', 'f7e48a90d5d76cfc49d378535781243d1f222928f2b3636c798b3278130cc41b')]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/duckdb_engine/__init__.py", line 162, in execute
+    self.__c.execute(statement, parameters)
+duckdb.duckdb.ConstraintException: Constraint Error: Duplicate key "id: c9220102-3eba-4424-a86a-07e9b71ed605" violates primary key constraint. If this is an unexpected constraint violation please double check with the known index limitations section in our documentation (https://duckdb.org/docs/sql/indexes).
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/memory/duckdb_memory.py", line 247, in _insert_entries
+    session.commit()
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1972, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1257, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1232, in _prepare_impl
+    self.session.flush()
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4296, in flush
+    self._flush(objects)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4431, in _flush
+    with util.safe_reraise():
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4392, in _flush
+    flush_context.execute()
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 1048, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 514, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1849, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1989, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2356, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/duckdb_engine/__init__.py", line 162, in execute
+    self.__c.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (duckdb.duckdb.ConstraintException) Constraint Error: Duplicate key "id: c9220102-3eba-4424-a86a-07e9b71ed605" violates primary key constraint. If this is an unexpected constraint violation please double check with the known index limitations section in our documentation (https://duckdb.org/docs/sql/indexes).
+[SQL: INSERT INTO "PromptMemoryEntries" (id, role, conversation_id, sequence, timestamp, labels, prompt_metadata, converter_identifiers, prompt_target_identifier, orchestrator_identifier, response_error, original_value_data_type, original_value, original_value_sha256, converted_value_data_type, converted_value, converted_value_sha256) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)]
+[parameters: (UUID('c9220102-3eba-4424-a86a-07e9b71ed605'), 'user', '7ecd49dc-a15b-40b5-bec5-5d8516b5b393', 2, datetime.datetime(2024, 6, 19, 17, 54, 44, 526998), '{"session": "red_teaming_test"}', None, '[]', '{"__type__": "CustomPromptChatTarget", "__module__": "__main__"}', '{"__type__": "RedTeamingOrchestrator", "__module__": "pyrit.orchestrator.red_teaming_orchestrator", "id": "135754976182160"}', 'none', 'text', 'How can I help you?', 'f7e48a90d5d76cfc49d378535781243d1f222928f2b3636c798b3278130cc41b', 'text', 'How can I help you?', 'f7e48a90d5d76cfc49d378535781243d1f222928f2b3636c798b3278130cc41b')]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+No conversation with the target
+Traceback (most recent call last):
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/duckdb_engine/__init__.py", line 162, in execute
+    self.__c.execute(statement, parameters)
+duckdb.duckdb.ConstraintException: Constraint Error: Duplicate key "id: c9220102-3eba-4424-a86a-07e9b71ed605" violates primary key constraint. If this is an unexpected constraint violation please double check with the known index limitations section in our documentation (https://duckdb.org/docs/sql/indexes).
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 126, in <module>
+    asyncio.run(main())
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 119, in main
+    score = await orchestrator.apply_attack_strategy_until_completion_async(max_turns=5)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 130, in apply_attack_strategy_until_completion_async
     response = await self.send_prompt_async(**send_prompt_kwargs)
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 199, in send_prompt_async
@@ -6,12 +126,68 @@ File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_or
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 317, in _get_prompt_from_red_teaming_target
     await self._prompt_normalizer.send_prompt_async(
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 78, in send_prompt_async
-    raise original_exception
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 64, in send_prompt_async
-    response = await target.send_prompt_async(prompt_request=request)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 62, in send_prompt_async
-    response_piece = PromptRequestPiece(
-                     ^^^^^^^^^^^^^^^^^^^
-TypeError: PromptRequestPiece.__init__() got an unexpected keyword argument 'timestamp'
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 87, in send_prompt_async
+    self._memory.add_request_response_to_memory(request=response)
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/memory/memory_interface.py", line 222, in add_request_response_to_memory
+    self.add_request_pieces_to_memory(request_pieces=request_pieces)
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/memory/duckdb_memory.py", line 163, in add_request_pieces_to_memory
+    self._insert_entries(entries=[PromptMemoryEntry(entry=piece) for piece in request_pieces])
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/memory/duckdb_memory.py", line 247, in _insert_entries
+    session.commit()
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1972, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1257, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 1232, in _prepare_impl
+    self.session.flush()
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4296, in flush
+    self._flush(objects)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4431, in _flush
+    with util.safe_reraise():
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 4392, in _flush
+    flush_context.execute()
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/orm/persistence.py", line 1048, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 514, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1849, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1989, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2356, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1970, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/site-packages/duckdb_engine/__init__.py", line 162, in execute
+    self.__c.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (duckdb.duckdb.ConstraintException) Constraint Error: Duplicate key "id: c9220102-3eba-4424-a86a-07e9b71ed605" violates primary key constraint. If this is an unexpected constraint violation please double check with the known index limitations section in our documentation (https://duckdb.org/docs/sql/indexes).
+[SQL: INSERT INTO "PromptMemoryEntries" (id, role, conversation_id, sequence, timestamp, labels, prompt_metadata, converter_identifiers, prompt_target_identifier, orchestrator_identifier, response_error, original_value_data_type, original_value, original_value_sha256, converted_value_data_type, converted_value, converted_value_sha256) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)]
+[parameters: (UUID('c9220102-3eba-4424-a86a-07e9b71ed605'), 'user', '7ecd49dc-a15b-40b5-bec5-5d8516b5b393', 2, datetime.datetime(2024, 6, 19, 17, 54, 44, 526998), '{"session": "red_teaming_test"}', None, '[]', '{"__type__": "CustomPromptChatTarget", "__module__": "__main__"}', '{"__type__": "RedTeamingOrchestrator", "__module__": "pyrit.orchestrator.red_teaming_orchestrator", "id": "135754976182160"}', 'none', 'text', 'How can I help you?', 'f7e48a90d5d76cfc49d378535781243d1f222928f2b3636c798b3278130cc41b', 'text', 'How can I help you?', 'f7e48a90d5d76cfc49d378535781243d1f222928f2b3636c798b3278130cc41b')]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
