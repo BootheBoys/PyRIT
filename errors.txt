@@ -1,9 +1,9 @@
-DEBUG:urllib3.connectionpool:https://huggingface.co:443 "HEAD /meta-llama/Meta-Llama-3-8B/resolve/main/generation_config.json HTTP/11" 200 0
-DEBUG:__main__:Creating memory instances
 INFO:pyrit.memory.duckdb_memory:Engine created successfully for database: /home/andrewboothe/Downloads/PyRIT/PyRIT/attacker_memory.db
 DEBUG:__main__:Initializing CustomPromptChatTarget instances
+DEBUG:__main__:Defining attack strategy and initial prompt
+DEBUG:__main__:Creating scorer instance
 Traceback (most recent call last):
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 114, in <module>
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 118, in <module>
     asyncio.run(main())
   File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/runners.py", line 190, in run
     return runner.run(main)
@@ -14,7 +14,10 @@ Traceback (most recent call last):
   File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
     return future.result()
            ^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 75, in main
-    attacker_target = CustomPromptChatTarget(memory=attacker_memory)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Can't instantiate abstract class CustomPromptChatTarget with abstract method _validate_request
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 94, in main
+    scorer = SelfAskTrueFalseScorer(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/score/self_ask_true_false_scorer.py", line 58, in __init__
+    self._chat_target.set_system_prompt(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'function' object has no attribute 'set_system_prompt'
