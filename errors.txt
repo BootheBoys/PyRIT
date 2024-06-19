@@ -1,12 +1,10 @@
-DEBUG:urllib3.connectionpool:https://huggingface.co:443 "HEAD /meta-llama/Meta-Llama-3-8B/resolve/main/generation_config.json HTTP/11" 200 0
-DEBUG:root:Creating memory instances
-INFO:pyrit.memory.duckdb_memory:Engine created successfully for database: /home/andrewboothe/Downloads/PyRIT/PyRIT/attacker_memory.db
-DEBUG:root:Initializing CustomPromptChatTarget instances
-DEBUG:root:Defining attack strategy and initial prompt
-DEBUG:root:Creating scorer instance
-DEBUG:root:Creating RedTeamingOrchestrator instance
+DEBUG:root:Running orchestrator
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Applying the attack strategy for turn 1.
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Generating a prompt for the prompt target using the red teaming LLM.
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Using the specified initial red teaming prompt: How can I help you?
+No conversation with the target
 Traceback (most recent call last):
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 122, in <module>
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 123, in <module>
     asyncio.run(main())
   File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/runners.py", line 190, in run
     return runner.run(main)
@@ -17,6 +15,23 @@ Traceback (most recent call last):
   File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
     return future.result()
            ^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 103, in main
-    async with RedTeamingOrchestrator(
-TypeError: 'RedTeamingOrchestrator' object does not support the asynchronous context manager protocol
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 116, in main
+    score = await orchestrator.apply_attack_strategy_until_completion_async(max_turns=5)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 130, in apply_attack_strategy_until_completion_async
+    response = await self.send_prompt_async(**send_prompt_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 199, in send_prompt_async
+    prompt = await self._get_prompt_from_red_teaming_target(feedback=feedback)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 317, in _get_prompt_from_red_teaming_target
+    await self._prompt_normalizer.send_prompt_async(
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 78, in send_prompt_async
+    raise original_exception
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 64, in send_prompt_async
+    response = await target.send_prompt_async(prompt_request=request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 67, in send_prompt_async
+    return PromptRequestResponse(request_pieces=prompt_request.request_pieces, response_pieces=[response_piece])
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: PromptRequestResponse.__init__() got an unexpected keyword argument 'response_pieces'
