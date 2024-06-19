@@ -30,6 +30,12 @@ from pyrit.orchestrator import RedTeamingOrchestrator
 from pyrit.models import AttackStrategy
 from pyrit.score import SelfAskTrueFalseScorer
 
+# Clear or recreate database state
+def reset_database(db_path):
+    if os.path.exists(db_path):
+        os.remove(db_path)
+    DuckDBMemory(db_path=db_path)
+
 class HuggingFaceModelWrapper:
     def __init__(self, model_name):
         self.tokenizer = AutoTokenizer.from_pretrained(model_name, use_auth_token=True)
@@ -72,6 +78,10 @@ class CustomPromptChatTarget(PromptChatTarget):
 
 async def main():
     logging.debug("Starting main function")
+
+    # Reset databases to ensure a clean state
+    reset_database("attacker_memory.db")
+    reset_database("defender_memory.db")
 
     attacker_model_name = "THUDM/glm-4-9b-chat"
     defender_model_name = "meta-llama/Meta-Llama-3-8B"
