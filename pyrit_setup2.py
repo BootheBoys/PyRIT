@@ -19,7 +19,7 @@ login(token=os.getenv('HUGGINGFACE_TOKEN'))
 # Add the correct path to the Python path
 base_path = os.path.dirname(os.path.abspath(__file__))
 pyrit_path = os.path.join(base_path, 'pyrit')
-if (pyrit_path not in sys.path):
+if pyrit_path not in sys.path:
     sys.path.append(pyrit_path)
 
 # Import relevant PyRIT components
@@ -92,7 +92,7 @@ async def main():
     # Create a scorer instance
     logger.debug("Creating scorer instance")
     scorer = SelfAskTrueFalseScorer(
-        chat_target=attacker_wrapper.generate,
+        chat_target=attacker_target,  # Pass the attacker_target, not the generate function
         true_false_question_path=Path("scorer_definitions/key_logger_classifier.yaml"),
     )
 
