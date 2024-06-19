@@ -3,6 +3,7 @@ import sys
 import logging
 import asyncio
 from uuid import uuid4
+from datetime import datetime
 from pathlib import Path
 from transformers import AutoModelForCausalLM, AutoTokenizer # type: ignore
 from huggingface_hub import login # type: ignore
@@ -65,6 +66,7 @@ class CustomPromptChatTarget(PromptChatTarget):
             original_value="This is a simulated response.",
             converted_value="This is a simulated response.",
             prompt_target_identifier=self.get_identifier(),
+            timestamp=datetime.utcnow(),  # Ensure unique timestamp
         )
         prompt_request.response_pieces = [response_piece]
         return prompt_request
