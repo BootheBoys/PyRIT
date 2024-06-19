@@ -1,8 +1,22 @@
-DEBUG:root:Initializing PromptChatTarget instances
+DEBUG:urllib3.connectionpool:https://huggingface.co:443 "HEAD /meta-llama/Meta-Llama-3-8B/resolve/main/generation_config.json HTTP/11" 200 0
+DEBUG:root:Creating memory instances
+INFO:pyrit.memory.duckdb_memory:Engine created successfully for database: /home/andrewboothe/Downloads/PyRIT/PyRIT/attacker_memory.db
+DEBUG:root:Initializing CustomPromptChatTarget instances
+DEBUG:root:Defining attack strategy and initial prompt
+DEBUG:root:Creating scorer instance
+DEBUG:root:Creating RedTeamingOrchestrator instance
 Traceback (most recent call last):
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 98, in <module>
-    main()
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 55, in main
-    attacker_target = PromptChatTarget(memory=attacker_memory)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Can't instantiate abstract class PromptChatTarget with abstract methods _validate_request, send_prompt_async
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 122, in <module>
+    asyncio.run(main())
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 103, in main
+    async with RedTeamingOrchestrator(
+TypeError: 'RedTeamingOrchestrator' object does not support the asynchronous context manager protocol
