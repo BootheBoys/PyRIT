@@ -1,3 +1,17 @@
-[SQL: INSERT INTO "PromptMemoryEntries" (id, role, conversation_id, sequence, timestamp, labels, prompt_metadata, converter_identifiers, prompt_target_identifier, orchestrator_identifier, response_error, original_value_data_type, original_value, original_value_sha256, converted_value_data_type, converted_value, converted_value_sha256) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)]
-[parameters: (UUID('e0fc391f-b614-467e-aa22-ae9e128750cb'), 'user', '6b0a43eb-4307-4aa4-b074-5c74f0347ea9', 2, datetime.datetime(2024, 6, 19, 17, 41, 2, 454558), '{"session": "red_teaming_test"}', None, '[]', '{"__type__": "CustomPromptChatTarget", "__module__": "__main__"}', '{"__type__": "RedTeamingOrchestrator", "__module__": "pyrit.orchestrator.red_teaming_orchestrator", "id": "136182777117712"}', 'none', 'text', 'How can I help you?', 'f7e48a90d5d76cfc49d378535781243d1f222928f2b3636c798b3278130cc41b', 'text', 'How can I help you?', 'f7e48a90d5d76cfc49d378535781243d1f222928f2b3636c798b3278130cc41b')]
-(Background on this error at: https://sqlalche.me/e/20/gkpj)
+File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 130, in apply_attack_strategy_until_completion_async
+    response = await self.send_prompt_async(**send_prompt_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 199, in send_prompt_async
+    prompt = await self._get_prompt_from_red_teaming_target(feedback=feedback)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 317, in _get_prompt_from_red_teaming_target
+    await self._prompt_normalizer.send_prompt_async(
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 78, in send_prompt_async
+    raise original_exception
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 64, in send_prompt_async
+    response = await target.send_prompt_async(prompt_request=request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 62, in send_prompt_async
+    response_piece = PromptRequestPiece(
+                     ^^^^^^^^^^^^^^^^^^^
+TypeError: PromptRequestPiece.__init__() got an unexpected keyword argument 'timestamp'
