@@ -64,7 +64,8 @@ class CustomPromptChatTarget(PromptChatTarget):
             converted_value="This is a simulated response.",
             prompt_target_identifier=self.get_identifier(),
         )
-        return PromptRequestResponse(request_pieces=prompt_request.request_pieces, response_pieces=[response_piece])
+        prompt_request.response_pieces = [response_piece]
+        return prompt_request
 
 async def main():
     logging.debug("Starting main function")
