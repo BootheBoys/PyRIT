@@ -49,7 +49,9 @@ class CustomPromptChatTarget(PromptChatTarget):
     async def send_prompt_async(self, prompt_request: PromptRequestResponse) -> PromptRequestPiece:
         # Generate response using the model
         prompt_text = prompt_request.request_pieces[0].original_value
+        logger.debug(f"Sending prompt to model: {prompt_text}")
         response_text = await attacker_wrapper.generate(prompt_text)
+        logger.debug(f"Generated response: {response_text}")
         
         response_uuid = str(uuid.uuid4())
         logger.debug(f"Generated UUID for response_piece: {response_uuid}")
