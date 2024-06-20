@@ -67,10 +67,10 @@ class CustomPromptChatTarget(PromptChatTarget):
             response_piece = PromptRequestPiece(
                 id=response_uuid,  # Ensure a unique UUID
                 role="assistant",
-                conversation_id = prompt_request.request_pieces[0].conversation_id,
+                # conversation_id = prompt_request.request_pieces[0].conversation_id,
                 original_value = response_text,
-                converted_value = response_text,
-                prompt_target_identifier = "CustomPromptChatTarget",
+                # converted_value = response_text,
+                # prompt_target_identifier = "CustomPromptChatTarget",
             )
             return response_piece
         except Exception as e:
