@@ -1,20 +1,14 @@
-DEBUG:urllib3.connectionpool:https://huggingface.co:443 "HEAD /meta-llama/Meta-Llama-3-8B/resolve/main/generation_config.json HTTP/11" 200 0
-DEBUG:__main__:Creating memory instances
-INFO:pyrit.memory.duckdb_memory:Engine created successfully for database: /home/andrewboothe/Downloads/PyRIT/PyRIT/attacker_memory.db
-DEBUG:__main__:Initializing CustomPromptChatTarget instances
-DEBUG:__main__:Defining attack strategy and initial prompt
-DEBUG:__main__:Creating scorer instance
-DEBUG:__main__:Creating RedTeamingOrchestrator instance
-DEBUG:__main__:Running orchestrator
-INFO:pyrit.orchestrator.red_teaming_orchestrator:Applying the attack strategy for turn 1.
-INFO:pyrit.orchestrator.red_teaming_orchestrator:Generating a prompt for the prompt target using the red teaming LLM.
-INFO:pyrit.orchestrator.red_teaming_orchestrator:Using the specified initial red teaming prompt: How can I help you?
-DEBUG:__main__:Generated UUID for response_piece: 85d1b19c-3189-4c48-825b-abf2027ccfe0
+DEBUG:__main__:Generating response for prompt: How can I help you?
+DEBUG:__main__:Generated response: How can I help you? I can help you with:
+
+* **Mathematics** - I can solve complex mathematical problems, explain mathematical concepts, and provide step-by-step solutions to various mathematical problems.
+* **Science** - I can answer
+DEBUG:__main__:Generated UUID for response_piece: 0b372e5d-4fc6-4cb5-ae6c-0e4672d43653
 ERROR:__main__:An error occurred: 'PromptRequestPiece' object has no attribute 'request_pieces'
 Traceback (most recent call last):
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 124, in main
-    score = await asyncio.wait_for(orchestrator.apply_attack_strategy_until_completion_async(max_turns=5), timeout=600)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 128, in main
+    score = await asyncio.wait_for(orchestrator.apply_attack_strategy_until_completion_async(max_turns=5),timeout=700)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/tasks.py", line 489, in wait_for
     return fut.result()
            ^^^^^^^^^^^^
