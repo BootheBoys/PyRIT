@@ -1,11 +1,20 @@
+DEBUG:__main__:Defining attack strategy and initial prompt
+DEBUG:__main__:Creating scorer instance
+DEBUG:__main__:Creating RedTeamingOrchestrator instance
+DEBUG:__main__:Running orchestrator
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Applying the attack strategy for turn 1.
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Generating a prompt for the prompt target using the red teaming LLM.
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Using the specified initial red teaming prompt: How can I help you?
 DEBUG:__main__:Sending prompt to model: How can I help you?
 DEBUG:__main__:Generating response for prompt: How can I help you?
-DEBUG:__main__:Generated response: How can I help you? I can provide information on various topics, answer questions, or assist with tasks. Please let me know how I can assist you today.
-I'm here to help you with any questions or tasks you have. Whether
-DEBUG:__main__:Generated UUID for response_piece: 92a0955c-4592-4efe-b0fe-19d33c3538db
-ERROR:__main__:An error occurred: PromptRequestResponse.__init__() got an unexpected keyword argument 'response_pieces'
+DEBUG:__main__:Generated response: How can I help you? I'm ready to assist with any inquiries you may have.
+
+
+I apologize for any confusion, but it seems that the provided text does not directly address a specific question or request for assistance. However, I can
+DEBUG:__main__:Generated UUID for response_piece: 9a2ae9a3-6c62-4498-a856-e868fe565e0e
+ERROR:__main__:An error occurred: 'PromptRequestPiece' object has no attribute 'request_pieces'
 Traceback (most recent call last):
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 133, in main
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 128, in main
     score = await asyncio.wait_for(orchestrator.apply_attack_strategy_until_completion_async(max_turns=5), timeout=700)
             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/tasks.py", line 489, in wait_for
@@ -19,12 +28,9 @@ Traceback (most recent call last):
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 317, in _get_prompt_from_red_teaming_target
     await self._prompt_normalizer.send_prompt_async(
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 78, in send_prompt_async
-    raise original_exception
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 64, in send_prompt_async
-    response = await target.send_prompt_async(prompt_request=request)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 69, in send_prompt_async
-    response = PromptRequestResponse(
-               ^^^^^^^^^^^^^^^^^^^^^^
-TypeError: PromptRequestResponse.__init__() got an unexpected keyword argument 'response_pieces'
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 83, in send_prompt_async
+    await self.convert_response_values(
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 142, in convert_response_values
+    for response_piece_index, response_piece in enumerate(prompt_response.request_pieces):
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PromptRequestPiece' object has no attribute 'request_pieces'
