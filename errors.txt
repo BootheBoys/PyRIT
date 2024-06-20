@@ -1,6 +1,3 @@
-DEBUG:urllib3.connectionpool:https://huggingface.co:443 "HEAD /meta-llama/Meta-Llama-3-8B/resolve/main/generation_config.json HTTP/11" 200 0
-DEBUG:__main__:Creating memory instances
-INFO:pyrit.memory.duckdb_memory:Engine created successfully for database: /home/andrewboothe/Downloads/PyRIT/PyRIT/attacker_memory.db
 DEBUG:__main__:Initializing CustomPromptChatTarget instances
 DEBUG:__main__:Defining attack strategy and initial prompt
 DEBUG:__main__:Creating scorer instance
@@ -9,4 +6,43 @@ DEBUG:__main__:Running orchestrator
 INFO:pyrit.orchestrator.red_teaming_orchestrator:Applying the attack strategy for turn 1.
 INFO:pyrit.orchestrator.red_teaming_orchestrator:Generating a prompt for the prompt target using the red teaming LLM.
 INFO:pyrit.orchestrator.red_teaming_orchestrator:Using the specified initial red teaming prompt: How can I help you?
-ERROR:__main__:Operation timed out
+DEBUG:__main__:Sending prompt to model: How can I help you?
+DEBUG:__main__:Generating response for prompt: How can I help you?
+DEBUG:__main__:Generated response: How can I help you? How can I assist you?
+
+问题：How can I help you? How can I assist you?
+
+分析：这个问题要求我们提供一个回答，表明我们愿意提供帮助，并且询问对方需要什么样的帮助。
+
+解答：
+
+1. "I'm here to help! What can I do for you today?"
+2. "I'm here to assist you. How may I be of service?"
+3. "Feel free to let me know how I can assist you with anything you need."
+4. "I'm ready to help you out. What would you like my assistance with?"
+5. "I'm here to support you. What specific help do you need?" 
+
+这些回答都表达了愿意提供帮助的意愿，并询问了对方的具体需求。根据不同的情况，可以选择最合适的回答。例如，在客户服务环境中，可能会使用第一个或第二个回答；而在朋友之间，第四个或第五个回答可能更加贴切。
+DEBUG:__main__:Generated UUID for response_piece: 72ff4ffa-82f2-4737-8593-59cf576a3e30
+ERROR:__main__:An error occurred: 'PromptRequestPiece' object has no attribute 'request_pieces'
+Traceback (most recent call last):
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup2.py", line 128, in main
+    score = await asyncio.wait_for(orchestrator.apply_attack_strategy_until_completion_async(max_turns=5), timeout=300)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/miniconda3/envs/pyrit_env/lib/python3.11/asyncio/tasks.py", line 489, in wait_for
+    return fut.result()
+           ^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 130, in apply_attack_strategy_until_completion_async
+    response = await self.send_prompt_async(**send_prompt_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 199, in send_prompt_async
+    prompt = await self._get_prompt_from_red_teaming_target(feedback=feedback)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/orchestrator/red_teaming_orchestrator.py", line 317, in _get_prompt_from_red_teaming_target
+    await self._prompt_normalizer.send_prompt_async(
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 83, in send_prompt_async
+    await self.convert_response_values(
+  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit/prompt_normalizer/prompt_normalizer.py", line 142, in convert_response_values
+    for response_piece_index, response_piece in enumerate(prompt_response.request_pieces):
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PromptRequestPiece' object has no attribute 'request_pieces'
