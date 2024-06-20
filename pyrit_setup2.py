@@ -40,7 +40,7 @@ class HuggingFaceModelWrapper:
         inputs = self.tokenizer(prompt, return_tensors='pt')
 
         def run_inference():
-            return self.model.generate(**inputs, **kwargs)
+            return self.model.generate(**inputs, max_length=50,**kwargs)
 
         logger.debug(f"Generating response for prompt: {prompt}")
         outputs = await loop.run_in_executor(None, run_inference)
