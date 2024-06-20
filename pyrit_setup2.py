@@ -49,24 +49,31 @@ class HuggingFaceModelWrapper:
         return response
 
 class CustomPromptChatTarget(PromptChatTarget):
-    async def send_prompt_async(self, prompt_request: PromptRequestResponse) -> PromptRequestResponse:
-        # Generate response using the model
-        prompt_text = prompt_request.request_pieces[0].original_value
-        logger.debug(f"Sending prompt to model: {prompt_text}")
-        response_text = await attacker_wrapper.generate(prompt_text)
-        
-        response_uuid = str(uuid.uuid4())
-        logger.debug(f"Generated UUID for response_piece: {response_uuid}")
-        response_piece = PromptRequestPiece(
-            id=response_uuid,  # Ensure a unique UUID
-            role="assistant",
-            conversation_id=prompt_request.request_pieces[0].conversation_id,
-            original_value=response_text,
-            converted_value=response_text,
-            prompt_target_identifier="CustomPromptChatTarget",
-        )
-        
-        return PromptRequestResponse(request_pieces=[response_piece])
+    async def send_prompt_async(self, prompt_request: PromptRequestResponse) -> PromptRequestPiece:
+        try:
+            # Generate response using the model
+            prompt_text = prompt_request.request_pieces[0].original_value
+            logger.debug(f"Sending prompt to model: {prompt_text}")
+
+            response_text = await attacker_wrapper.generate(prompt_text)
+            logger.debug(f"Received response from model: {response_text}")
+
+            response_uuid = str(uuid.uuid4())
+            logger.debug(f"Generated UUID for response_piece: {response_uuid}")
+
+            response_piece = PromptRequestPiece(
+                id=response_uuid,  # Ensure a unique UUID
+                role="assistant",
+                conversation_id=prompt_request.request_pieces[0].conversation_id,
+                original_value=response_text,
+                converted_value=response_text,
+                prompt_target_identifier="CustomPromptChatTarget",
+            )
+            logger.debug(f"Created PromptRequestPiece: {response_piece}")
+            return response_piece
+        except Exception as e:
+            logger.exception(f"Error in send_prompt_async: {e}")
+            raise e
 
     def _validate_request(self, prompt_request: PromptRequestResponse):
         # Implement the validation logic if needed, or leave it as a pass if no specific validation is required
