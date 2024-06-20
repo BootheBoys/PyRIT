@@ -7,7 +7,6 @@ from huggingface_hub import login  # type: ignore
 from pyrit.memory import DuckDBMemory
 import uuid
 import logging
-import time
 
 # Setup logging
 logging.basicConfig(level=logging.DEBUG)
@@ -41,23 +40,17 @@ class HuggingFaceModelWrapper:
         inputs = self.tokenizer(prompt, return_tensors='pt')
 
         def run_inference():
-            return self.model.generate(**inputs, **kwargs)
+            return self.model.generate(**inputs, max_length=50, **kwargs)
 
-        start_time = time.time()
         outputs = await loop.run_in_executor(None, run_inference)
-        end_time = time.time()
-        logger.debug(f"Model generation took {end_time - start_time} seconds")
-
         return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
 
 class CustomPromptChatTarget(PromptChatTarget):
-    async def send_prompt_async(self, prompt_request: PromptRequestResponse) -> PromptRequestResponse:
-        logger.debug(f"Received prompt request: {prompt_request}")
+    async def send_prompt_async(self, prompt_request: PromptRequestResponse) -> PromptRequestPiece:
+        # Generate response using the model
         prompt_text = prompt_request.request_pieces[0].original_value
-        logger.debug(f"Generating response for prompt: {prompt_text}")
         response_text = await attacker_wrapper.generate(prompt_text)
-        logger.debug(f"Generated response: {response_text}")
-
+        
         response_uuid = str(uuid.uuid4())
         logger.debug(f"Generated UUID for response_piece: {response_uuid}")
         response_piece = PromptRequestPiece(
@@ -68,15 +61,10 @@ class CustomPromptChatTarget(PromptChatTarget):
             converted_value=response_text,
             prompt_target_identifier="CustomPromptChatTarget",
         )
-        
-        response = PromptRequestResponse(
-            request_pieces=prompt_request.request_pieces,
-            response_pieces=[response_piece]
-        )
-        logger.debug(f"Returning response: {response}")
-        return response
+        return response_piece
 
     def _validate_request(self, prompt_request: PromptRequestResponse):
+        # Implement the validation logic if needed, or leave it as a pass if no specific validation is required
         pass
 
 async def main():
