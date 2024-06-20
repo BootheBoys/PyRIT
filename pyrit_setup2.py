@@ -61,20 +61,25 @@ class CustomPromptChatTarget(PromptChatTarget):
             response_uuid = str(uuid.uuid4())
             logger.debug(f"Generated UUID for response_piece: {response_uuid}")
 
-            response_piece = PromptRequestPiece(
-                logger.debug("Entered response_piece = PromptRequestPiece("),
+            logger.debug("Entered response_piece = PromptRequestPiece(")
+                response_piece = PromptRequestPiece(
                 id=response_uuid,  # Ensure a unique UUID
                 role="assistant",
-                logger.debug("Passed role"),
-                conversation_id=prompt_request.request_pieces[0].conversation_id,
-                logger.debug("passed convoid"),
-                original_value=response_text,
-                logger.debug("passed orig value"),
-                converted_value=response_text,
-                logger.debug("passed converted value"),
-                prompt_target_identifier="CustomPromptChatTarget",
-                logger.debug("passed prompt_target_identifier"),
             )
+            logger.debug("Passed role")
+
+            response_piece.conversation_id = prompt_request.request_pieces[0].conversation_id
+            logger.debug("Passed conversation_id")
+
+            response_piece.original_value = response_text
+            logger.debug("Passed original_value")
+
+            response_piece.converted_value = response_text
+            logger.debug("Passed converted_value")
+
+            response_piece.prompt_target_identifier = "CustomPromptChatTarget"
+            logger.debug("Passed prompt_target_identifier")
+
             logger.debug(f"Created PromptRequestPiece: {response_piece}")
             return response_piece
         except Exception as e:
