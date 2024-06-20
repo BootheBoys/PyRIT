@@ -40,7 +40,7 @@ class HuggingFaceModelWrapper:
         inputs = self.tokenizer(prompt, return_tensors='pt')
 
         def run_inference():
-            return self.model.generate(**inputs, max_length=50,**kwargs)
+            return self.model.generate(**inputs, max_length=50, **kwargs)
 
         logger.debug(f"Generating response for prompt: {prompt}")
         outputs = await loop.run_in_executor(None, run_inference)
@@ -49,7 +49,7 @@ class HuggingFaceModelWrapper:
         return response
 
 class CustomPromptChatTarget(PromptChatTarget):
-    async def send_prompt_async(self, prompt_request: PromptRequestResponse) -> PromptRequestPiece:
+    async def send_prompt_async(self, prompt_request: PromptRequestResponse) -> PromptRequestResponse:
         # Generate response using the model
         prompt_text = prompt_request.request_pieces[0].original_value
         logger.debug(f"Sending prompt to model: {prompt_text}")
@@ -65,7 +65,12 @@ class CustomPromptChatTarget(PromptChatTarget):
             converted_value=response_text,
             prompt_target_identifier="CustomPromptChatTarget",
         )
-        return response_piece
+        
+        response = PromptRequestResponse(
+            request_pieces=prompt_request.request_pieces,
+            response_pieces=[response_piece]
+        )
+        return response
 
     def _validate_request(self, prompt_request: PromptRequestResponse):
         # Implement the validation logic if needed, or leave it as a pass if no specific validation is required
@@ -125,7 +130,7 @@ async def main():
 
         # Run the orchestrator
         logger.debug("Running orchestrator")
-        score = await asyncio.wait_for(orchestrator.apply_attack_strategy_until_completion_async(max_turns=5))
+        score = await asyncio.wait_for(orchestrator.apply_attack_strategy_until_completion_async(max_turns=5), timeout=700)
         orchestrator.print_conversation()
     except asyncio.TimeoutError:
         logger.error("Operation timed out")
