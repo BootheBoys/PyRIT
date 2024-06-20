@@ -62,7 +62,7 @@ class CustomPromptChatTarget(PromptChatTarget):
             logger.debug(f"Generated UUID for response_piece: {response_uuid}")
 
             logger.debug("Entered response_piece = PromptRequestPiece(")
-                response_piece = PromptRequestPiece(
+            response_piece = PromptRequestPiece(
                 id=response_uuid,  # Ensure a unique UUID
                 role="assistant",
             )
