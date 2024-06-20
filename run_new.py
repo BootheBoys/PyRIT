@@ -22,7 +22,9 @@ defender_model = AutoModelForCausalLM.from_pretrained(defender_model_name, trust
 defender_tokenizer = AutoTokenizer.from_pretrained(defender_model_name, token=os.environ["HUGGINGFACE_TOKEN"])
 
 # Function to generate a response using a model
-def generate_response(model, tokenizer, prompt):
+def generate_response(model, tokenizer, prompt, preamble=None):
+    if preamble:
+        prompt = preamble + "\n" + prompt
     inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=1024)
     outputs = model.generate(**inputs, max_new_tokens=100)
     response = tokenizer.decode(outputs[0], skip_special_tokens=True)
@@ -53,7 +55,8 @@ for i in range(10):  # Run 10 rounds of conversation
     if i % 2 == 0:  # Attacker's turn
         attacker_prompt = attacker_prompts[i // 2 % len(attacker_prompts)]
         print(f"Attacker (Round {i//2 + 1}): {attacker_prompt}")
-        response = generate_response(attacker_model, attacker_tokenizer, attacker_prompt)
+        attacker_prompt = attacker_prompt + defender_preamble
+        response = generate_response(defender_model, defender_tokenizer, attacker_prompt, defender_preamble)
         print(f"Defender: {response}")
         conversation_log.append({"role": "attacker", "message": attacker_prompt})
         conversation_log.append({"role": "defender", "message": response})
