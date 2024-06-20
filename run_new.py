@@ -51,27 +51,28 @@ defender_preamble = (
 )
 
 # Automate the conversation
-for i in range(10):  # Run 10 rounds of conversation
-    if i % 2 == 0:  # Attacker's turn
-        attacker_prompt = attacker_prompts[i // 2 % len(attacker_prompts)]
-        print(f"Attacker (Round {i//2 + 1}): {attacker_prompt}")
-        attacker_prompt = attacker_prompt + defender_preamble
-        response = generate_response(defender_model, defender_tokenizer, attacker_prompt, defender_preamble)
-        print(f"Defender: {response}")
-        conversation_log.append({"role": "attacker", "message": attacker_prompt})
-        conversation_log.append({"role": "defender", "message": response})
-        attacker_prompt = response  # Use defender's response as the next attacker prompt
-        print("------------------------")
-    else:  # Defender's turn
-        defender_prompt = defender_preamble + "\nAttacker: " + attacker_prompt
-        print(f"Defender (Round {i//2 + 1}): {attacker_prompt}")
-        response = generate_response(defender_model, defender_tokenizer, defender_prompt)
-        print(f"Attacker: {response}")
-        conversation_log.append({"role": "defender", "message": attacker_prompt})
-        conversation_log.append({"role": "attacker", "message": response})
-        attacker_prompt = response  # Use attacker's response as the next defender prompt
-        print("------------------------")
+attacker_prompt = attacker_prompts[(attacker_prompts[0])]
+print(f"Attacker (Round 1): {attacker_prompt}")
+attacker_prompt = attacker_prompt + defender_preamble
+response = generate_response(defender_model, defender_tokenizer, attacker_prompt, defender_preamble)
+print(f"Defender: {response}")
+conversation_log.append({"role": "attacker", "message": attacker_prompt})
+conversation_log.append({"role": "defender", "message": response})
+attacker_prompt = response  # Use defender's response as the next attacker prompt
+print("------------------------")
 
+for i in range(4):
+    print(f"Round {i+1})")
+    attacker_prompt = attacker_prompts[(attacker_prompts[i+1])]
+    print(f"Attacker (Round {i + 1}): {attacker_prompt}")
+    attacker_prompt = attacker_prompt + defender_preamble
+    response = generate_response(defender_model, defender_tokenizer, attacker_prompt, defender_preamble)
+    print(f"Defender: {response}")
+    conversation_log.append({"role": "attacker", "message": attacker_prompt})
+    conversation_log.append({"role": "defender", "message": response})
+    attacker_prompt = response  # Use defender's response as the next attacker prompt
+    print("------------------------")
+            
 # Save the conversation results
 with open(results_path, "w") as f:
     json.dump(conversation_log, f, indent=4)
