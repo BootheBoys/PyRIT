@@ -125,7 +125,7 @@ async def main():
 
         # Run the orchestrator
         logger.debug("Running orchestrator")
-        score = await asyncio.wait_for(orchestrator.apply_attack_strategy_until_completion_async(max_turns=5), timeout=300)
+        score = await asyncio.wait_for(orchestrator.apply_attack_strategy_until_completion_async(max_turns=5))
         orchestrator.print_conversation()
     except asyncio.TimeoutError:
         logger.error("Operation timed out")
