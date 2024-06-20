@@ -1,7 +1,12 @@
-Traceback (most recent call last):
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup.py", line 95, in <module>
-    main()
-  File "/home/andrewboothe/Downloads/PyRIT/PyRIT/pyrit_setup.py", line 69, in main
-    attacker_target = PromptChatTarget(attacker_wrapper.generate)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Can't instantiate abstract class PromptChatTarget with abstract methods _validate_request, send_prompt_async
+DEBUG:urllib3.connectionpool:https://huggingface.co:443 "HEAD /meta-llama/Meta-Llama-3-8B/resolve/main/generation_config.json HTTP/11" 200 0
+DEBUG:__main__:Creating memory instances
+INFO:pyrit.memory.duckdb_memory:Engine created successfully for database: /home/andrewboothe/Downloads/PyRIT/PyRIT/attacker_memory.db
+DEBUG:__main__:Initializing CustomPromptChatTarget instances
+DEBUG:__main__:Defining attack strategy and initial prompt
+DEBUG:__main__:Creating scorer instance
+DEBUG:__main__:Creating RedTeamingOrchestrator instance
+DEBUG:__main__:Running orchestrator
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Applying the attack strategy for turn 1.
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Generating a prompt for the prompt target using the red teaming LLM.
+INFO:pyrit.orchestrator.red_teaming_orchestrator:Using the specified initial red teaming prompt: How can I help you?
+ERROR:__main__:Operation timed out
