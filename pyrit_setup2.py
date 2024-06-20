@@ -7,6 +7,7 @@ from huggingface_hub import login  # type: ignore
 from pyrit.memory import DuckDBMemory
 import uuid
 import logging
+import time
 
 # Setup logging
 logging.basicConfig(level=logging.DEBUG)
@@ -42,15 +43,21 @@ class HuggingFaceModelWrapper:
         def run_inference():
             return self.model.generate(**inputs, **kwargs)
 
+        start_time = time.time()
         outputs = await loop.run_in_executor(None, run_inference)
+        end_time = time.time()
+        logger.debug(f"Model generation took {end_time - start_time} seconds")
+
         return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
 
 class CustomPromptChatTarget(PromptChatTarget):
     async def send_prompt_async(self, prompt_request: PromptRequestResponse) -> PromptRequestResponse:
-        # Generate response using the model
+        logger.debug(f"Received prompt request: {prompt_request}")
         prompt_text = prompt_request.request_pieces[0].original_value
+        logger.debug(f"Generating response for prompt: {prompt_text}")
         response_text = await attacker_wrapper.generate(prompt_text)
-        
+        logger.debug(f"Generated response: {response_text}")
+
         response_uuid = str(uuid.uuid4())
         logger.debug(f"Generated UUID for response_piece: {response_uuid}")
         response_piece = PromptRequestPiece(
@@ -66,10 +73,10 @@ class CustomPromptChatTarget(PromptChatTarget):
             request_pieces=prompt_request.request_pieces,
             response_pieces=[response_piece]
         )
+        logger.debug(f"Returning response: {response}")
         return response
 
     def _validate_request(self, prompt_request: PromptRequestResponse):
-        # Implement the validation logic if needed, or leave it as a pass if no specific validation is required
         pass
 
 async def main():
@@ -126,7 +133,7 @@ async def main():
     try:
         # Run the orchestrator
         logger.debug("Running orchestrator")
-        score = await asyncio.wait_for(orchestrator.apply_attack_strategy_until_completion_async(max_turns=5), timeout=300)
+        score = await asyncio.wait_for(orchestrator.apply_attack_strategy_until_completion_async(max_turns=5), timeout=600)
         orchestrator.print_conversation()
     except asyncio.TimeoutError:
         logger.error("Operation timed out")
