@@ -54,6 +54,8 @@ class CustomPromptChatTarget(PromptChatTarget):
             # Generate response using the model
             prompt_text = prompt_request.request_pieces[0].original_value
             logger.debug(f"Sending prompt to model: {prompt_text}")
+            logger.debug(f"Request pieces: {prompt_request.request_pieces[0]} ---------------------------------\n---------------")
+            logger.debug(f"Request pieces: {prompt_request.request_pieces[0].conversation_id} ---------------------------------\n---------------")
 
             response_text = await attacker_wrapper.generate(prompt_text)
             logger.debug(f"Received response from model: {response_text}")
