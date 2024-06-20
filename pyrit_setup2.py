@@ -49,7 +49,7 @@ class HuggingFaceModelWrapper:
         return response
 
 class CustomPromptChatTarget(PromptChatTarget):
-    async def send_prompt_async(self, prompt_request: PromptRequestResponse) -> PromptRequestResponse:
+    async def send_prompt_async(self, prompt_request: PromptRequestResponse) -> PromptRequestPiece:
         # Generate response using the model
         prompt_text = prompt_request.request_pieces[0].original_value
         logger.debug(f"Sending prompt to model: {prompt_text}")
@@ -65,12 +65,7 @@ class CustomPromptChatTarget(PromptChatTarget):
             converted_value=response_text,
             prompt_target_identifier="CustomPromptChatTarget",
         )
-        
-        response = PromptRequestResponse(
-            request_pieces=prompt_request.request_pieces,
-            response_pieces=[response_piece]
-        )
-        return response
+        return response_piece
 
     def _validate_request(self, prompt_request: PromptRequestResponse):
         # Implement the validation logic if needed, or leave it as a pass if no specific validation is required
