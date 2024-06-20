@@ -42,13 +42,17 @@ class HuggingFaceModelWrapper:
         def run_inference():
             return self.model.generate(**inputs, **kwargs)
 
+        logger.debug(f"Generating response for prompt: {prompt}")
         outputs = await loop.run_in_executor(None, run_inference)
-        return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+        response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+        logger.debug(f"Generated response: {response}")
+        return response
 
 class CustomPromptChatTarget(PromptChatTarget):
     async def send_prompt_async(self, prompt_request: PromptRequestResponse) -> PromptRequestPiece:
         # Generate response using the model
         prompt_text = prompt_request.request_pieces[0].original_value
+        logger.debug(f"Sending prompt to model: {prompt_text}")
         response_text = await attacker_wrapper.generate(prompt_text)
         
         response_uuid = str(uuid.uuid4())
