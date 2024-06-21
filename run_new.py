@@ -27,6 +27,9 @@ def generate_response(model, tokenizer, prompt, preamble=None):
         prompt = preamble + "\n" + prompt
     inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=1024)
     outputs = model.generate(**inputs, max_new_tokens=100)
+    print("OUTPUTS: ---------------------")
+    print(outputs[0])
+    print("------------------------------")
     response = tokenizer.decode(outputs[0], skip_special_tokens=True)
     return response
 
@@ -51,7 +54,7 @@ defender_preamble = (
 )
 
 # Automate the conversation
-attacker_prompt = attacker_prompts[(attacker_prompts[0])]
+attacker_prompt = attacker_prompts[0]
 print(f"Attacker (Round 1): {attacker_prompt}")
 attacker_prompt = attacker_prompt + defender_preamble
 response = generate_response(defender_model, defender_tokenizer, attacker_prompt, defender_preamble)
@@ -63,7 +66,7 @@ print("------------------------")
 
 for i in range(4):
     print(f"Round {i+1})")
-    attacker_prompt = attacker_prompts[(attacker_prompts[i+1])]
+    attacker_prompt = attacker_prompts[i+1]
     print(f"Attacker (Round {i + 1}): {attacker_prompt}")
     attacker_prompt = attacker_prompt + defender_preamble
     response = generate_response(defender_model, defender_tokenizer, attacker_prompt, defender_preamble)
