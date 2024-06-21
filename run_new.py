@@ -25,8 +25,8 @@ defender_tokenizer = AutoTokenizer.from_pretrained(defender_model_name, token=os
 def generate_response(model, tokenizer, prompt, preamble=None):
     if preamble:
         prompt = preamble + "\n" + prompt
-    inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=1024)
-    outputs = model.generate(**inputs, max_new_tokens=100)
+    inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=2024)
+    outputs = model.generate(**inputs, max_new_tokens=200)
     print("OUTPUTS: ---------------------")
     print(outputs[0])
     print("------------------------------")
@@ -80,7 +80,7 @@ for i in range(4):
     print("------------------------")
             
 # Save the conversation results
-with open(results_path, "w") as f:
-    json.dump(conversation_log, f, indent=4)
+#with open(results_path, "w") as f:
+#    json.dump(conversation_log, f, indent=4)
 
-print("Conversation saved successfully.")
+#print("Conversation saved successfully.")
