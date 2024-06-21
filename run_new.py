@@ -31,8 +31,8 @@ def generate_response(model, tokenizer, prompt, preamble=None):
     print(outputs[0])
     print("------------------------------")
     response = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    print("OUTPUTS after TOKEN: ---------------------")
-    print(outputs[0])
+    print("RESPONSE: ---------------------")
+    print(response)
     print("------------------------------")
     return response
 
