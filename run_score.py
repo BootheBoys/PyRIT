@@ -87,7 +87,7 @@ conversation_log.append({"role": "attacker", "message": attacker_prompt})
 conversation_log.append({"role": "defender", "message": defender_response, "scores": score_response(defender_response)})
 print("------------------------")
 
-for i in range(4):
+for i in range(2):
     print(f"Round {i+2})")
     # The attacker gets the initial context plus the defender's latest response
     attacker_prompt = f"Defender: {defender_response}"
