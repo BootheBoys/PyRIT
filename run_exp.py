@@ -85,7 +85,7 @@ for i in range(4):
             
 # Save the conversation results
 try:
-    with open(results_path, "w") as f:
+    with open(results_path, "a") as f:
         json.dump(conversation_log, f, indent=4)
     print("Conversation saved successfully.")
 except Exception as e:
